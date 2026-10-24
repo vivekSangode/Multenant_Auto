@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{vehicle}}/api/v1/vehicle/models"
+method: GET
+headers:
+  Authorization: Bearer {{tokenA}}
+scripts:
+  - type: afterResponse
+    code: pm.test('only Velocity models', () => pm.expect(pm.response.json().map(m => m.modelCode)).to.eql(['VX-EV', 'VX-SUV']));
+    language: text/javascript
+order: 3000

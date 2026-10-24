@@ -1,0 +1,14 @@
+$kind: http-request
+name: "List models: only Apex's"
+url: "{{vehicle}}/api/v1/vehicle/models"
+method: GET
+headers:
+  Authorization: Bearer {{tokenB}}
+scripts:
+  - type: afterResponse
+    code: |-
+      const m = pm.response.json();
+      pm.test('Apex catalog only', () => pm.expect(m.map(x => x.modelCode)).to.eql(['AP-SEDAN', 'VX-SUV']));
+      pm.test('Apex price, not Velocity price', () => pm.expect(m.find(x => x.modelCode === 'VX-SUV').basePrice).to.eql(1999999));
+    language: text/javascript
+order: 3000

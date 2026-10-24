@@ -1,0 +1,36 @@
+$kind: http-request
+name: New Request
+url: http://localhost:8080/actuator/health
+method: GET
+body:
+  type: json
+  content: "{\r
+
+    \        \"companyCode\": \"CMP_103\",\r
+
+    \        \"legalName\": \"Shivam Info Pvt Ltd\",\r
+
+    \        \"displayName\": \"Shivam Info Pvt Ltd\",\r
+
+    \        \"slug\": \"shivam-minerals-pvt-ltd\",\r
+
+    \        \"loginCode\": \"G8JY5URY\",\r
+
+    \        \"status\": \"ACTIVE\",\r
+
+    \        \"statusReason\": \"all mandatory steps verified\",\r
+
+    \        \"onboardingType\": \"NEW\",\r
+
+    \        \"superAdminEmail\": \"admin@shivam.test\",\r
+
+    \        \"realm\": \"co-101\",\r
+
+    \        \"activatedAt\": \"2026-10-16T15:13:17.668827\"\r
+
+    \    }"
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJGaXd2c2p6WnJHdkNvN3lhRzYtZ25taVBXbkwzZDRyWnZJalY4Y2tFb0c4In0.eyJleHAiOjE3OTIxNTE3ODEsImlhdCI6MTc5MjE1MTQ4MSwianRpIjoib25ydHJvOmQ3M2NhZGJiLTJjZjctMWJjZS1jZjJjLWM0NjA2NWNlNjlkYSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODE4MC9yZWFsbXMvZXJwLXBsYXRmb3JtIiwiYXVkIjoibnlhYWxrYXJhbi1lcnAiLCJzdWIiOiJlNTJlZWM0Zi0wN2Y1LTQxYWMtYmVmZi1lYTY3NGQxZjU3YTQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJwbGF0Zm9ybS1jb25zb2xlIiwic2lkIjoiNjlkMTJiYzMtMTliYi00ZDY4LTllMGMtOWExMmFiNzM2NGVlIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjQyMDAiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIlBMQVRGT1JNX1NVUEVSX0FETUlOIl19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlBsYXRmb3JtIFN1cGVyIEFkbWluIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic3VwZXJhZG1pbiIsImdpdmVuX25hbWUiOiJQbGF0Zm9ybSIsImZhbWlseV9uYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AcGxhdGZvcm0udGVzdCJ9.lhagLMW-_5Ph9lnngiifOgMW_ev5_BZsjJWgqCkXZ-8-5cZvXENwok4L1LzqPgB-Ww0D0_Cj0PIb5lJvMI9UVFOgG9eXEYq62LjJA-XSboVKPQkV8abp_bES155CAX8PUERWlXxe5t5kfw7jTMub684Ngbit-ODwMFdoUZQBm9hgu9i5VM3k2uZSvETUYayFwPDZWVtvDCE9mWNXig0ADdoIqXfdRgsFJmA6p5B4ktZXum919BVQCiEhVAH9KuRvmN30Y_nw5m9qb6Gul-jNIHAn-CYgO4fssi8XahQ9R5rI9d7OQWGP1HZsUqip4OCuu7VHg7ygcyyz223Fkndrzg
+order: 6000

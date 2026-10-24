@@ -1,0 +1,13 @@
+$kind: http-request
+url: https://nyaalkaran.in:4199/realms/ERPSystem/protocol/openid-connect/token
+method: POST
+headers:
+  Content-Type: application/x-www-form-urlencoded
+body:
+  type: urlencoded
+  content:
+    grant_type: password
+    client_id: admin-cli
+    username: nyaalkaran
+    password: Nyaal@2020
+order: 4000

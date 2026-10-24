@@ -1,0 +1,23 @@
+$kind: http-request
+name: "B10 Company login: token of realm co-n (tenant_id = companyB)"
+url: "{{kc}}/realms/{{realmB}}/protocol/openid-connect/token"
+method: POST
+headers:
+  Content-Type: application/x-www-form-urlencoded
+body:
+  type: urlencoded
+  content:
+    grant_type: password
+    client_id: erp-web
+    username: "{{ownerEmailB}}"
+    password: "{{ownerPasswordB}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('200', () => pm.response.to.have.status(200));
+      const t = pm.response.json();
+      pm.collectionVariables.set('tokenB', t.access_token);
+      pm.collectionVariables.set('tokenBExp', Date.now() + t.expires_in * 1000);
+      pm.collectionVariables.set('acceptedB', true);
+    language: text/javascript
+order: 10000

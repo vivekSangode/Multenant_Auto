@@ -1,0 +1,11 @@
+$kind: http-request
+url: "{{inventory}}/api/v1/inventory/_routing"
+method: GET
+headers:
+  Authorization: Bearer {{tokenA}}
+  X-Company-Code: "{{companyB}}"
+scripts:
+  - type: afterResponse
+    code: pm.test('still Velocity', () => pm.expect(pm.response.json().companyCode).to.eql(pm.collectionVariables.get('companyA')));
+    language: text/javascript
+order: 3000

@@ -1,0 +1,13 @@
+$kind: http-request
+name: Which database served Velocity? (vehicle-service)
+url: "{{vehicle}}/api/v1/vehicle/_routing"
+method: GET
+headers:
+  Authorization: Bearer {{tokenA}}
+scripts:
+  - type: afterResponse
+    code: |-
+      const n = pm.collectionVariables.get('companyA').substring(4);
+      pm.test('cmp_' + n + '_vehicle_db', () => pm.expect(pm.response.json().connectedTo).to.eql('cmp_' + n + '_vehicle_db'));
+    language: text/javascript
+order: 11000

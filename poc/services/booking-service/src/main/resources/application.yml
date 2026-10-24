@@ -1,0 +1,38 @@
+server:
+  port: ${PORT:8093}
+
+spring:
+  application:
+    name: booking-service
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6380}
+      timeout: 2s
+
+erp:
+  tenant:
+    module-code: booking
+    gateway-token: BOOKING
+    keycloak:
+      url: ${KEYCLOAK_URL:http://localhost:8180}
+      client-id: svc-booking
+      client-secret: ${SVC_CLIENT_SECRET:svc-booking-secret}
+    control-plane:
+      url: ${CONTROL_PLANE_URL:http://localhost:8080}
+    db:
+      username: ${DB_USER:erp_app}
+      password: ${DB_PASSWORD:erp_app_pass}
+
+# Business calls to other domain services relay the user's token (PHASE_01 §6.6.3)
+services:
+  vehicle:
+    url: ${VEHICLE_SERVICE_URL:http://localhost:8091}
+  inventory:
+    url: ${INVENTORY_SERVICE_URL:http://localhost:8092}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

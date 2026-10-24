@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{cp}}/api/v1/platform/companies/{{companyA}}/orders"
+method: POST
+headers:
+  Authorization: Bearer {{platformToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "billingPeriod": "MONTHLY", "bundles": ["AUTO_DEALER"], "users": 5, "storageGb": 10 }'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('201', () => pm.response.to.have.status(201));
+      const o = pm.response.json().order;
+      pm.collectionVariables.set('orderA', o.id);
+      pm.collectionVariables.set('totalA', o.grandTotal);
+    language: text/javascript
+order: 2000

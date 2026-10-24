@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{kc}}/admin/realms/{{realmB}}/users?email={{ownerEmailB}}&exact=true"
+method: GET
+headers:
+  Authorization: Bearer {{operatorToken}}
+scripts:
+  - type: afterResponse
+    code: |-
+      const u = pm.response.json()[0];
+      pm.collectionVariables.set('ownerIdB', u.id);
+      pm.collectionVariables.set('ownerUserB', JSON.stringify(Object.assign(u, { requiredActions: [], emailVerified: true })));
+      pm.test('found', () => pm.expect(u.email).to.eql(pm.collectionVariables.get('ownerEmailB')));
+    language: text/javascript
+order: 7000

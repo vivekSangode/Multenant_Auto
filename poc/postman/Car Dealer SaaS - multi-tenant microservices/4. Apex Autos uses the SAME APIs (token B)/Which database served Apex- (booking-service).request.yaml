@@ -1,0 +1,13 @@
+$kind: http-request
+name: Which database served Apex? (booking-service)
+url: "{{booking}}/api/v1/booking/_routing"
+method: GET
+headers:
+  Authorization: Bearer {{tokenB}}
+scripts:
+  - type: afterResponse
+    code: |-
+      const n = pm.collectionVariables.get('companyB').substring(4);
+      pm.test('cmp_' + n + '_booking_db', () => pm.expect(pm.response.json().connectedTo).to.eql('cmp_' + n + '_booking_db'));
+    language: text/javascript
+order: 14000

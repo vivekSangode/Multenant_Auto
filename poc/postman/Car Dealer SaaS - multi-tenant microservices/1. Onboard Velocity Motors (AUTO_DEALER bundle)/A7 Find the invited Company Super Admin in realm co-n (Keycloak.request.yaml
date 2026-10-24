@@ -1,0 +1,15 @@
+$kind: http-request
+name: A7 Find the invited Company Super Admin in realm co-n (Keycloak admin API)
+url: "{{kc}}/admin/realms/{{realmA}}/users?email={{ownerEmailA}}&exact=true"
+method: GET
+headers:
+  Authorization: Bearer {{operatorToken}}
+scripts:
+  - type: afterResponse
+    code: |-
+      const u = pm.response.json()[0];
+      pm.test('invited, must set a password', () => pm.expect(u.requiredActions).to.include('UPDATE_PASSWORD'));
+      pm.collectionVariables.set('ownerIdA', u.id);
+      pm.collectionVariables.set('ownerUserA', JSON.stringify(Object.assign(u, { requiredActions: [], emailVerified: true })));
+    language: text/javascript
+order: 7000

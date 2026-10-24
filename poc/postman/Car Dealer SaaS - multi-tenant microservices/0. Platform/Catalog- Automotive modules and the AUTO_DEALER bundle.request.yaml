@@ -1,0 +1,13 @@
+$kind: http-request
+name: "Catalog: Automotive modules and the AUTO_DEALER bundle"
+url: "{{cp}}/api/v1/platform/catalog?period=MONTHLY"
+method: GET
+headers:
+  Authorization: Bearer {{platformToken}}
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('200', () => pm.response.to.have.status(200));
+      pm.test('car modules are sellable', () => pm.expect(pm.response.text()).to.include('"code":"vehicle"').and.include('"code":"booking"').and.include('AUTO_DEALER'));
+    language: text/javascript
+order: 1000

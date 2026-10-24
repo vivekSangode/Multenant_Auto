@@ -1,0 +1,15 @@
+$kind: http-request
+name: Receive a car of an unknown model -> 422 UNKNOWN_MODEL
+url: "{{inventory}}/api/v1/inventory/units"
+method: POST
+headers:
+  Authorization: Bearer {{tokenA}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "vin": "MA1XX0000XXX00009", "modelCode": "NO-SUCH-CAR", "color": "Red" }'
+scripts:
+  - type: afterResponse
+    code: pm.test('422 UNKNOWN_MODEL', () => { pm.response.to.have.status(422); pm.expect(pm.response.json().code).to.eql('UNKNOWN_MODEL'); });
+    language: text/javascript
+order: 6000

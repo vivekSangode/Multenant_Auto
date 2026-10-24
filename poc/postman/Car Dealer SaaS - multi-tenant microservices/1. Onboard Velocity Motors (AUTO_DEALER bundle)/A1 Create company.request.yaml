@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{cp}}/api/v1/platform/companies"
+method: POST
+headers:
+  Authorization: Bearer {{platformToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "legalName": "Velocity Motors Pvt Ltd", "superAdminEmail": "{{ownerEmailA}}" }'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('201', () => pm.response.to.have.status(201));
+      const c = pm.response.json();
+      pm.collectionVariables.set('companyA', c.companyCode);
+      pm.collectionVariables.set('realmA', c.realm);
+      pm.collectionVariables.unset('acceptedA'); pm.collectionVariables.unset('tokenA');
+    language: text/javascript
+order: 1000

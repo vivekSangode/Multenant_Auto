@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{booking}}/api/v1/booking/bookings"
+method: POST
+headers:
+  Authorization: Bearer {{tokenB}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "customerName": "Meera Shah", "customerPhone": "9800000002", "modelCode": "AP-SEDAN", "color": "White" }'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('201', () => pm.response.to.have.status(201));
+      const b = pm.response.json();
+      pm.collectionVariables.set('bookingB', b.bookingNo);
+      pm.test('Apex VIN and price', () => { pm.expect(b.vin).to.eql('MA3AP000SEDAN0001'); pm.expect(b.price).to.eql(980000); });
+    language: text/javascript
+order: 11000

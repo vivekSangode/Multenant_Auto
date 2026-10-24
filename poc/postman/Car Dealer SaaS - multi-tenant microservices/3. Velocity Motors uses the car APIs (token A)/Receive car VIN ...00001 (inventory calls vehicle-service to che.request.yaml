@@ -1,0 +1,15 @@
+$kind: http-request
+name: Receive car VIN ...00001 (inventory calls vehicle-service to check the model)
+url: "{{inventory}}/api/v1/inventory/units"
+method: POST
+headers:
+  Authorization: Bearer {{tokenA}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "vin": "MA1VX0000SUV00001", "modelCode": "VX-SUV", "color": "Red" }'
+scripts:
+  - type: afterResponse
+    code: pm.test('201', () => pm.response.to.have.status(201));
+    language: text/javascript
+order: 4000

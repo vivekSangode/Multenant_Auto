@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{cp}}/api/v1/platform/orders/{{orderA}}/payments"
+method: POST
+headers:
+  Authorization: Bearer {{platformToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "mode": "UPI", "amount": {{totalA}} }'
+scripts:
+  - type: afterResponse
+    code: pm.test('order fulfilled', () => pm.expect(pm.response.json().order.status).to.eql('FULFILLED'));
+    language: text/javascript
+order: 4000

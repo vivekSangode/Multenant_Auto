@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{booking}}/api/v1/booking/bookings"
+method: GET
+headers:
+  Authorization: Bearer {{tokenB}}
+scripts:
+  - type: afterResponse
+    code: |-
+      const polls = Number(pm.collectionVariables.get('polls') || 0) + 1;
+      if (pm.response.code !== 200 && polls < 60) {
+        pm.collectionVariables.set('polls', polls);
+        setTimeout(() => {}, 2000);
+        pm.execution.setNextRequest(pm.info.requestName);
+      } else {
+        pm.collectionVariables.unset('polls');
+        pm.test('booking API open for Apex', () => pm.response.to.have.status(200));
+      }
+    language: text/javascript
+order: 10000

@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{booking}}/api/v1/booking/bookings"
+method: GET
+headers:
+  Authorization: Bearer {{tokenB}}
+scripts:
+  - type: afterResponse
+    code: pm.test('200', () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 6000

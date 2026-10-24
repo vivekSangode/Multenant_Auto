@@ -1,0 +1,20 @@
+$kind: http-request
+name: Book a VX-SUV (price from vehicle-service, car reserved in inventory-service)
+url: "{{booking}}/api/v1/booking/bookings"
+method: POST
+headers:
+  Authorization: Bearer {{tokenA}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "customerName": "Ravi Kumar", "customerPhone": "9800000001", "modelCode": "VX-SUV", "color": "Red" }'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('201', () => pm.response.to.have.status(201));
+      const b = pm.response.json();
+      pm.collectionVariables.set('bookingA', b.bookingNo);
+      pm.test('price from the catalog', () => pm.expect(b.price).to.eql(1450000));
+      pm.test('a VIN is reserved', () => pm.expect(b.vin).to.match(/^MA1VX0000SUV0000/));
+    language: text/javascript
+order: 7000

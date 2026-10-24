@@ -1,0 +1,11 @@
+$kind: http-request
+name: A5 Provision (realm co-n, 3 car DBs + platform DBs, buckets, Company Super Admin)
+url: "{{cp}}/api/v1/platform/companies/{{companyA}}/provision"
+method: POST
+headers:
+  Authorization: Bearer {{platformToken}}
+scripts:
+  - type: afterResponse
+    code: pm.test('2xx', () => pm.response.to.be.success);
+    language: text/javascript
+order: 5000

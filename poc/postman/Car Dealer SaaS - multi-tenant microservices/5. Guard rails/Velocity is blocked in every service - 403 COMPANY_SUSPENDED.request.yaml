@@ -1,0 +1,11 @@
+$kind: http-request
+name: Velocity is blocked in every service -> 403 COMPANY_SUSPENDED
+url: "{{booking}}/api/v1/booking/bookings"
+method: GET
+headers:
+  Authorization: Bearer {{tokenA}}
+scripts:
+  - type: afterResponse
+    code: pm.test('403 COMPANY_SUSPENDED', () => { pm.response.to.have.status(403); pm.expect(pm.response.json().code).to.eql('COMPANY_SUSPENDED'); });
+    language: text/javascript
+order: 5000

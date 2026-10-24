@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{cp}}/api/v1/platform/companies"
+method: POST
+headers:
+  Authorization: Bearer {{platformToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "legalName": "Apex Autos LLP", "superAdminEmail": "{{ownerEmailB}}" }'
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('201', () => pm.response.to.have.status(201));
+      const c = pm.response.json();
+      pm.collectionVariables.set('companyB', c.companyCode);
+      pm.collectionVariables.set('realmB', c.realm);
+      pm.collectionVariables.unset('acceptedB'); pm.collectionVariables.unset('tokenB');
+    language: text/javascript
+order: 1000

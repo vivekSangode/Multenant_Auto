@@ -1,0 +1,11 @@
+$kind: http-request
+name: Booking is not bought yet -> 403 MODULE_NOT_ENTITLED
+url: "{{booking}}/api/v1/booking/bookings"
+method: GET
+headers:
+  Authorization: Bearer {{tokenB}}
+scripts:
+  - type: afterResponse
+    code: pm.test('403 MODULE_NOT_ENTITLED', () => { pm.response.to.have.status(403); pm.expect(pm.response.json().code).to.eql('MODULE_NOT_ENTITLED'); });
+    language: text/javascript
+order: 6000

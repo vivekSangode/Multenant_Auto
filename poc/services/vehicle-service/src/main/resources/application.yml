@@ -1,0 +1,31 @@
+server:
+  port: ${PORT:8091}
+
+spring:
+  application:
+    name: vehicle-service
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6380}
+      timeout: 2s
+
+erp:
+  tenant:
+    module-code: vehicle
+    gateway-token: VEHICLE
+    keycloak:
+      url: ${KEYCLOAK_URL:http://localhost:8180}
+      client-id: svc-vehicle
+      client-secret: ${SVC_CLIENT_SECRET:svc-vehicle-secret}
+    control-plane:
+      url: ${CONTROL_PLANE_URL:http://localhost:8080}
+    db:
+      username: ${DB_USER:erp_app}
+      password: ${DB_PASSWORD:erp_app_pass}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

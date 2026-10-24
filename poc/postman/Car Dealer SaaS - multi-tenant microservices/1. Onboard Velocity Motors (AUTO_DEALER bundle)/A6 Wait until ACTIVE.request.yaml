@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{cp}}/api/v1/platform/companies/{{companyA}}"
+method: GET
+headers:
+  Authorization: Bearer {{platformToken}}
+scripts:
+  - type: afterResponse
+    code: |-
+      const status = pm.response.json().status;
+      const polls = Number(pm.collectionVariables.get('polls') || 0) + 1;
+      if (status !== 'ACTIVE' && polls < 60) {
+        pm.collectionVariables.set('polls', polls);
+        setTimeout(() => {}, 2000);
+        pm.execution.setNextRequest(pm.info.requestName);
+      } else {
+        pm.collectionVariables.unset('polls');
+        pm.test('company is ACTIVE', () => pm.expect(status).to.eql('ACTIVE'));
+      }
+    language: text/javascript
+order: 6000

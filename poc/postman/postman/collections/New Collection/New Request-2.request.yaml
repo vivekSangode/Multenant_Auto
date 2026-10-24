@@ -1,0 +1,36 @@
+$kind: http-request
+name: New Request
+url: http://localhost:8080/api/v1/platform/companies/CMP_101/overview
+method: GET
+body:
+  type: json
+  content: "{\r
+
+    \        \"companyCode\": \"CMP_103\",\r
+
+    \        \"legalName\": \"Shivam Info Pvt Ltd\",\r
+
+    \        \"displayName\": \"Shivam Info Pvt Ltd\",\r
+
+    \        \"slug\": \"shivam-minerals-pvt-ltd\",\r
+
+    \        \"loginCode\": \"G8JY5URY\",\r
+
+    \        \"status\": \"ACTIVE\",\r
+
+    \        \"statusReason\": \"all mandatory steps verified\",\r
+
+    \        \"onboardingType\": \"NEW\",\r
+
+    \        \"superAdminEmail\": \"admin@shivam.test\",\r
+
+    \        \"realm\": \"co-101\",\r
+
+    \        \"activatedAt\": \"2026-10-16T15:13:17.668827\"\r
+
+    \    }"
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJGaXd2c2p6WnJHdkNvN3lhRzYtZ25taVBXbkwzZDRyWnZJalY4Y2tFb0c4In0.eyJleHAiOjE3OTIxNTIxNTcsImlhdCI6MTc5MjE1MTg1NywianRpIjoib25ydHJvOmU0MTEwOWM2LThlOWUtZGEwOS1mNWQ4LTAzMTc2ODY5ZDEyMyIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODE4MC9yZWFsbXMvZXJwLXBsYXRmb3JtIiwiYXVkIjoibnlhYWxrYXJhbi1lcnAiLCJzdWIiOiJlNTJlZWM0Zi0wN2Y1LTQxYWMtYmVmZi1lYTY3NGQxZjU3YTQiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJwbGF0Zm9ybS1jb25zb2xlIiwic2lkIjoiNmZlOTVkMmUtYjg3Mi00Yjc2LWIyNjYtM2U4ZmQ1MDI2NWM4IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjQyMDAiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIlBMQVRGT1JNX1NVUEVSX0FETUlOIl19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlBsYXRmb3JtIFN1cGVyIEFkbWluIiwicHJlZmVycmVkX3VzZXJuYW1lIjoic3VwZXJhZG1pbiIsImdpdmVuX25hbWUiOiJQbGF0Zm9ybSIsImZhbWlseV9uYW1lIjoiU3VwZXIgQWRtaW4iLCJlbWFpbCI6InN1cGVyYWRtaW5AcGxhdGZvcm0udGVzdCJ9.u1eG6Te0Ju0U8DdFzu_KfIKUxnd9JWABUhxjpumDXzj9ijMCZHXg0trxargYQG9wsbx2_FlX21lM3ww3F_ouerc3WyxiKfLrrMRiLhfEw73UpfzOJHJivipBGkAbhVG62fzmJ286XozW3gHe0UBtHIutQybGlteCUg6SHw1zf9x2pVD6hely2cA8uq3HfLyhy-WWYAHcm02WzpNl9F5DBr8h6SeC5hGFEVtUFmzxe3dFoQrhT6KVOAAmoXVsB-PgexNbdt5xADT-PzUu2TiRaUAIt31o1dLG6Wu5yl_CVRm9h6GaFeOritU89_AtYQU3S4LGDPVghKFiQt4xFioHbg
+order: 5000

@@ -1,0 +1,15 @@
+$kind: http-request
+name: "Book again: the only car is taken -> 409 OUT_OF_STOCK"
+url: "{{booking}}/api/v1/booking/bookings"
+method: POST
+headers:
+  Authorization: Bearer {{tokenB}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "customerName": "Late Customer", "modelCode": "AP-SEDAN", "color": "White" }'
+scripts:
+  - type: afterResponse
+    code: pm.test('409 OUT_OF_STOCK', () => { pm.response.to.have.status(409); pm.expect(pm.response.json().code).to.eql('OUT_OF_STOCK'); });
+    language: text/javascript
+order: 12000

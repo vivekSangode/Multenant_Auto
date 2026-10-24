@@ -1,0 +1,15 @@
+$kind: http-request
+name: "Same model code as Velocity is fine: separate catalog"
+url: "{{vehicle}}/api/v1/vehicle/models"
+method: POST
+headers:
+  Authorization: Bearer {{tokenB}}
+  Content-Type: application/json
+body:
+  type: text
+  content: "{ \"modelCode\": \"VX-SUV\", \"name\": \"Apex's own VX-SUV\", \"bodyType\": \"SUV\", \"fuelType\": \"PETROL\", \"basePrice\": 1999999 }"
+scripts:
+  - type: afterResponse
+    code: pm.test('201 (no clash with Velocity)', () => pm.response.to.have.status(201));
+    language: text/javascript
+order: 2000

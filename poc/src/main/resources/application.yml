@@ -1,0 +1,79 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: control-panel-poc
+  datasource:
+    # control_panel_db: platform metadata only, never business data (master §6.4 rule 4)
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3307}/control_panel_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${DB_USER:erp_app}
+    password: ${DB_PASSWORD:erp_app_pass}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate   # Liquibase owns the schema (CD-27 final state)
+    properties:
+      hibernate:
+        jdbc.time_zone: UTC
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6380}
+      timeout: 2s
+
+poc:
+  # CD-03: the same environment credentials for every company database; the CP registry picks the DB name.
+  tenant-db:
+    host: ${DB_HOST:localhost}
+    port: ${DB_PORT:3307}
+    username: ${DB_USER:erp_app}
+    password: ${DB_PASSWORD:erp_app_pass}
+    max-pool-size: 5
+  storage:
+    enabled: ${STORAGE_ENABLED:true}
+    endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+    access-key: ${MINIO_ACCESS_KEY:minioadmin}
+    secret-key: ${MINIO_SECRET_KEY:minioadmin}
+  provisioning:
+    worker-enabled: true
+    poll-interval-ms: 2000
+    lease-seconds: 120
+    max-attempts: 8
+    backoff-base-seconds: 5      # master §7.3 says 30 s -> 1 h; shortened for the POC
+    backoff-max-seconds: 3600
+  cache:
+    ttl-seconds: 300
+  billing:
+    tax-rate-percent: 0          # Q-04 / CD-25: no APPROVED tax rule yet
+    quote-validity-days: 15
+  # Identity (master §14, CD-06/CD-17): platform realm `erp-platform`, one realm co-<n> per company.
+  # `url` must be the address the clients use too, because it is the token issuer.
+  keycloak:
+    url: ${KEYCLOAK_URL:http://localhost:8180}
+    platform-realm: erp-platform
+    audience: nyaalkaran-erp
+    # CD-17 service account in `master`; the secret belongs in the environment / secret store
+    provisioner-client-id: ${KEYCLOAK_PROVISIONER_CLIENT_ID:erp-realm-provisioner}
+    provisioner-client-secret: ${KEYCLOAK_PROVISIONER_CLIENT_SECRET:erp-realm-provisioner-secret}
+    # CD-19 platform SMTP is not part of the POC: the invited Company Super Admin gets no e-mail
+    send-invite-email: ${KEYCLOAK_SEND_INVITE_EMAIL:false}
+    web-redirect-uri: ${ERP_WEB_REDIRECT_URI:http://localhost:4200/*}
+  # /api/v1/internal/**: registry lookups for the domain services (PHASE_01 §6.6.1), M2M tokens of erp-platform
+  internal:
+    allowed-clients: svc-vehicle,svc-inventory,svc-booking
+  # The platform and tenant portals (poc/frontend) call the APIs from this browser origin
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

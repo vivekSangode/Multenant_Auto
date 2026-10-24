@@ -1,0 +1,22 @@
+$kind: http-request
+url: http://192.168.5.114:8083/crm/api/v1/emails/send
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer <YOUR_JWT_TOKEN>
+body:
+  type: json
+  content: |-
+    {
+        "subject": "Test Email from CRM",
+        "to": [
+            {
+                "email": "recipient@example.com",
+                "type": "TO"
+            }
+        ],
+        "htmlBody": "<h1>Hello</h1><p>This is a test email from the CRM lead module.</p>",
+        "relatedEntityId": 1,
+        "relatedEntityType": "LEAD"
+    }
+order: 3000

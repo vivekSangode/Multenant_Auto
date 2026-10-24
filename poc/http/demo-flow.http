@@ -1,0 +1,149 @@
+### Nyaalkaran ERP SaaS POC - the R1 admin flow, step by step.
+### Run in IntelliJ (HTTP Client) top to bottom. Each step stores ids and tokens for the next one.
+### Access tokens live 5 minutes: re-run step 0 (or 12a) if a later request returns 401.
+@host = http://localhost:8080
+@kc = http://localhost:8180
+
+### 0. Platform Super Admin token from the platform realm erp-platform (POC: password grant of platform-console)
+POST {{kc}}/realms/erp-platform/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id=platform-console&username=superadmin&password=change-me
+
+> {% client.global.set("platformToken", response.body.access_token); %}
+
+### 1. Catalog: modules, bundles, dependencies, current monthly price list
+GET {{host}}/api/v1/platform/catalog?period=MONTHLY
+Authorization: Bearer {{platformToken}}
+
+### 2. Create a company (DRAFT, race-safe CMP_n code, login code, realm name co-n)
+POST {{host}}/api/v1/platform/companies
+Authorization: Bearer {{platformToken}}
+Content-Type: application/json
+
+{ "legalName": "Shivam Minerals Pvt Ltd", "superAdminEmail": "admin@shivam.test" }
+
+> {% client.global.set("company", response.body.companyCode);
+     client.global.set("realm", "co-" + response.body.companyCode.substring(4)); %}
+
+### 3. Quote: CRM + Store (Store pulls its mandatory Account Book dependency), 8 users, 25 GiB
+POST {{host}}/api/v1/platform/companies/{{company}}/orders
+Authorization: Bearer {{platformToken}}
+Content-Type: application/json
+
+{ "billingPeriod": "MONTHLY", "modules": ["crm", "store"], "users": 8, "storageGb": 25 }
+
+> {% client.global.set("orderId", response.body.order.id); %}
+
+### 4. Confirm the order: amounts frozen, subscription created PENDING
+POST {{host}}/api/v1/platform/orders/{{orderId}}/confirm
+Authorization: Bearer {{platformToken}}
+
+### 5. Trying to provision now is refused: SUBSCRIPTION_NOT_ACTIVE (full payment first, CD-07)
+POST {{host}}/api/v1/platform/companies/{{company}}/provision
+Authorization: Bearer {{platformToken}}
+
+### 6. Record a cash payment (immediate) for part of the total
+POST {{host}}/api/v1/platform/orders/{{orderId}}/payments
+Authorization: Bearer {{platformToken}}
+Content-Type: application/json
+
+{ "mode": "CASH", "amount": 500 }
+
+### 7. Record a cheque for the rest (PENDING_VERIFICATION until cleared)
+POST {{host}}/api/v1/platform/orders/{{orderId}}/payments
+Authorization: Bearer {{platformToken}}
+Content-Type: application/json
+
+{ "mode": "CHEQUE", "amount": 290, "instrumentRef": "CHQ-000123", "bankName": "SBI" }
+
+> {% client.global.set("chequeId", response.body.payments[1].id); %}
+
+### 8. The cheque cleared: 100 % verified -> invoice ISSUED_PAID, subscription ACTIVE, entitlements computed
+POST {{host}}/api/v1/platform/payments/{{chequeId}}/verify
+Authorization: Bearer {{platformToken}}
+
+### 9. Provision: realm co-n + Company Super Admin, one DB per entitled module, Liquibase per tenant, buckets, caches
+POST {{host}}/api/v1/platform/companies/{{company}}/provision
+Authorization: Bearer {{platformToken}}
+
+### 10. Watch the job (re-run until COMPLETED)
+GET {{host}}/api/v1/platform/companies/{{company}}/provisioning-jobs
+Authorization: Bearer {{platformToken}}
+
+### 11. Everything the platform knows: subscriptions, entitlements, allowances, resources (IDP_REALM co-n VERIFIED), Redis
+GET {{host}}/api/v1/platform/companies/{{company}}/overview
+Authorization: Bearer {{platformToken}}
+
+### 12. The invited Company Super Admin "accepts the invitation" (no SMTP in the POC, CD-19).
+###     Simulated with the operator's Keycloak admin login (admin/admin, Keycloak console only): set a password
+###     and clear the required actions. 12-1: operator token, 12-2: find the user, 12-3: password, 12-4: actions.
+POST {{kc}}/realms/master/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id=admin-cli&username=admin&password=admin
+
+> {% client.global.set("operatorToken", response.body.access_token); %}
+
+### 12-2
+GET {{kc}}/admin/realms/{{realm}}/users?email=admin@shivam.test&exact=true
+Authorization: Bearer {{operatorToken}}
+
+> {% client.global.set("ownerId", response.body[0].id);
+     client.global.set("ownerAccepted", JSON.stringify(Object.assign(response.body[0],
+         { requiredActions: [], emailVerified: true }))); %}
+
+### 12-3
+PUT {{kc}}/admin/realms/{{realm}}/users/{{ownerId}}/reset-password
+Authorization: Bearer {{operatorToken}}
+Content-Type: application/json
+
+{ "type": "password", "value": "Shivam-Owner-1", "temporary": false }
+
+### 12-4
+PUT {{kc}}/admin/realms/{{realm}}/users/{{ownerId}}
+Authorization: Bearer {{operatorToken}}
+Content-Type: application/json
+
+{{ownerAccepted}}
+
+### 12a. Company token from the company realm co-n: iss = .../realms/co-n, tenant_id = CMP_n, COMPANY_SUPER_ADMIN
+POST {{kc}}/realms/{{realm}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id=erp-web&username=admin@shivam.test&password=Shivam-Owner-1
+
+> {% client.global.set("companyToken", response.body.access_token); %}
+
+### 13. Business API as the company: the company comes only from the verified token
+POST {{host}}/api/v1/tenant/crm/customers
+Authorization: Bearer {{companyToken}}
+Content-Type: application/json
+
+{ "customerCode": "C-001", "name": "Rajesh Traders", "email": "rajesh@traders.test" }
+
+### 14. Which physical database served the request? (an X-Company-Code header would be ignored)
+GET {{host}}/api/v1/tenant/crm/_routing
+Authorization: Bearer {{companyToken}}
+
+### 15. A module the company did not buy -> 403 MODULE_NOT_ENTITLED
+GET {{host}}/api/v1/tenant/asset/anything
+Authorization: Bearer {{companyToken}}
+
+### 16. A platform token on the tenant API -> 401 (platform identities never reach business routes)
+GET {{host}}/api/v1/tenant/crm/customers
+Authorization: Bearer {{platformToken}}
+
+### 17. Suspend -> business API returns 403 COMPANY_SUSPENDED (data is kept; re-run 13/14 to see it)
+POST {{host}}/api/v1/platform/companies/{{company}}/status
+Authorization: Bearer {{platformToken}}
+Content-Type: application/json
+
+{ "status": "SUSPENDED", "reason": "demo" }
+
+### 18. Reactivate
+POST {{host}}/api/v1/platform/companies/{{company}}/status
+Authorization: Bearer {{platformToken}}
+Content-Type: application/json
+
+{ "status": "ACTIVE", "reason": "demo over" }

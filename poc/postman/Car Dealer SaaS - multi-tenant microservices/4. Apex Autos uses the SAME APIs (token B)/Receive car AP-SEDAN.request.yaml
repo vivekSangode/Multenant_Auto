@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{inventory}}/api/v1/inventory/units"
+method: POST
+headers:
+  Authorization: Bearer {{tokenB}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "vin": "MA3AP000SEDAN0001", "modelCode": "AP-SEDAN", "color": "White" }'
+scripts:
+  - type: afterResponse
+    code: pm.test('201', () => pm.response.to.have.status(201));
+    language: text/javascript
+order: 4000

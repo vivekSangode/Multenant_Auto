@@ -1,0 +1,19 @@
+$kind: http-request
+name: "Upgrade: quote booking"
+url: "{{cp}}/api/v1/platform/companies/{{companyB}}/orders"
+method: POST
+headers:
+  Authorization: Bearer {{platformToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "billingPeriod": "MONTHLY", "modules": ["booking"], "users": 5, "storageGb": 10 }'
+scripts:
+  - type: afterResponse
+    code: |-
+      const o = pm.response.json().order;
+      pm.test('UPGRADE order', () => pm.expect(o.orderKind).to.eql('UPGRADE'));
+      pm.collectionVariables.set('orderB2', o.id);
+      pm.collectionVariables.set('totalB2', o.grandTotal);
+    language: text/javascript
+order: 7000

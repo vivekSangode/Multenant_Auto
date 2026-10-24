@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{booking}}/api/v1/booking/bookings/{{bookingA}}/deliver"
+method: POST
+headers:
+  Authorization: Bearer {{tokenA}}
+scripts:
+  - type: afterResponse
+    code: pm.test('DELIVERED', () => pm.expect(pm.response.json().status).to.eql('DELIVERED'));
+    language: text/javascript
+order: 9000

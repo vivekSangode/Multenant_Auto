@@ -1,0 +1,15 @@
+$kind: http-request
+name: "Upgrade: pay (ADD_MODULE job creates cmp_n_booking_db while Apex stays ACTIVE)"
+url: "{{cp}}/api/v1/platform/orders/{{orderB2}}/payments"
+method: POST
+headers:
+  Authorization: Bearer {{platformToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "mode": "UPI", "amount": {{totalB2}} }'
+scripts:
+  - type: afterResponse
+    code: pm.test('order fulfilled', () => pm.expect(pm.response.json().order.status).to.eql('FULFILLED'));
+    language: text/javascript
+order: 9000

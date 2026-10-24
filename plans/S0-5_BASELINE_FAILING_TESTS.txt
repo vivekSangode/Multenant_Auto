@@ -1,0 +1,102 @@
+S0-5 baseline failing tests (2026-10-03). Unit run U1 (mvn -o test):
+PlatformJwtGrantedAuthoritiesConverterTest.mapsScopesAndRealmAndResourceRoles:38 
+CompositeItemControllerTest.create_shouldReturn200:76 Status expected:<200> but was:<400>
+CompositeItemControllerTest.update_shouldReturn200:83 Status expected:<200> but was:<400>
+CompositeItemControllerTest.warehouseStock_notFound_shouldReturn404:103 Status expected:<404> but was:<200>
+CurrencyControllerTest$ToggleActive.shouldToggle:143 No value at JSON path "$.active"
+InventoryConsumptionControllerTest.create_shouldReturn200:74 Status expected:<200> but was:<400>
+InventoryConsumptionControllerTest.update_shouldReturn200:81 Status expected:<200> but was:<400>
+SalesOrderControllerTest$CrudOperations.getAllSalesOrders_shouldReturn200:122 No value at JSON path "$[0].orderNumber"
+SalesReturnControllerTest$Create.valid_shouldReturn200:118 Status expected:<200> but was:<400>
+SalesReturnControllerTest$Update.valid_shouldReturn200:131 Status expected:<200> but was:<400>
+TcsMasterControllerTest.create_shouldReturn200:75 Status expected:<200> but was:<400>
+TcsMasterControllerTest.update_shouldReturn200:82 Status expected:<200> but was:<400>
+TdsMasterControllerTest.create_shouldReturn200:75 Status expected:<200> but was:<400>
+TdsMasterControllerTest.update_shouldReturn200:82 Status expected:<200> but was:<400>
+TransferOrderControllerTest$Create.valid_shouldReturn201:103 Status expected:<201> but was:<400>
+TransferOrderControllerTest$Update.valid_shouldReturn200:121 Status expected:<200> but was:<400>
+WarehouseControllerTest$Create.valid_shouldReturn201:103 Status expected:<201> but was:<400>
+WarehouseControllerTest$Update.valid_shouldReturn200:125 Status expected:<200> but was:<400>
+AccountingTransactionServiceTest.postEntries_differentGroupIds_shouldThrow:116 
+AccountingTransactionServiceTest.postEntries_imbalanced_shouldThrow:91 
+CostCentreServiceTest.getAll_shouldReturnList:39 
+CreditNoteServiceTest$VoidCreditNote.shouldRejectVoidOnClosed:354 Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
+DebitNoteServiceTest$StatusWorkflow.voidDebitNote_rejectsClosed:256 Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
+ExpenseStatusServiceTest.recalculateAndSave_expenseNotFound_shouldThrow:34 
+ManualTransactionServiceTest.createTransaction_ReceiveMoney_WithExpenseAccount_ShouldThrow:309 Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown.
+ManualTransactionServiceTest.createTransaction_SpendMoney_WithIncomeAccount_ShouldThrow:236 Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown.
+PaymentServiceTest$RecordPaymentTests.zeroAmount_shouldThrow:280 Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
+TransferOrderServiceTest$CreateTests.createTransferOrder_DuplicateTransferNumber_Throws:219 Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.Runtime
+VendorCreditServiceTest$UpdateVendorCredit.shouldRejectUpdateOnClosed:339 Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown.
+VendorCreditServiceTest$VoidVendorCredit.shouldRejectVoidOnClosed:445 Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
+WarehouseServiceTest.createWarehouse_duplicateName_shouldThrow:64 
+EwayBillControllerTest.cancel_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568ee78 te
+EwayBillControllerTest.checkExpiry_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568ee
+EwayBillControllerTest.create_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568ee78 te
+EwayBillControllerTest.delete_shouldReturn204 » IllegalState Failed to load ApplicationContext for [WebMergedContextConfiguration@1568ee78 testClass = nyaalkaran.erp.system.accounting.controller.EwayB
+EwayBillControllerTest.exclude_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568ee78 t
+EwayBillControllerTest.export_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568ee78 te
+EwayBillControllerTest.extendValidity_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@156
+EwayBillControllerTest.generatePartA_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568
+EwayBillControllerTest.generate_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568ee78 
+EwayBillControllerTest.getAll_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568ee78 te
+EwayBillControllerTest.getById_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568ee78 t
+EwayBillControllerTest.markManual_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568ee7
+EwayBillControllerTest.updateVehicle_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568
+EwayBillControllerTest.update_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@1568ee78 te
+ReportControllerTest.backfill_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 tes
+ReportControllerTest.balanceSheetPdf_shouldReturnPdf » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8
+ReportControllerTest.balanceSheet_shouldReturn200 » IllegalState Failed to load ApplicationContext for [WebMergedContextConfiguration@f3c8686 testClass = nyaalkaran.erp.system.accounting.controller.Re
+ReportControllerTest.cashFlow_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 tes
+ReportControllerTest.costCentre_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 t
+ReportControllerTest.expenses_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 tes
+ReportControllerTest.gst_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 testClas
+ReportControllerTest.inventoryMovement_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3
+ReportControllerTest.inventorySummary_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c
+ReportControllerTest.inventoryValuation_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f
+ReportControllerTest.ledger_customer_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8
+ReportControllerTest.ledger_invalidPartyType_shouldReturn400 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfigurat
+ReportControllerTest.payables_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 tes
+ReportControllerTest.profitLossPdf_shouldReturnPdf » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c868
+ReportControllerTest.profitLoss_invalidDates_shouldReturn400 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfigurat
+ReportControllerTest.profitLoss_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 t
+ReportControllerTest.purchases_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 te
+ReportControllerTest.rcm_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 testClas
+ReportControllerTest.receivables_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 
+ReportControllerTest.salesExcel_shouldReturnXlsx » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 
+ReportControllerTest.sales_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 testCl
+ReportControllerTest.tds_shouldReturn200 » IllegalState ApplicationContext failure threshold (1) exceeded: skipping repeated attempt to load context for [WebMergedContextConfiguration@f3c8686 testClas
+AccountingBackfillServiceTest.backfill_noMissingEntries_shouldReturnZeroCounts » UnnecessaryStubbing 
+AccountingTransactionServiceTest.postEntries_balanced_shouldSave:64 » IllegalArgument Reference ID is required.
+BalanceSheetServiceTest.generateReport_noData_shouldReturnEmptySheet » UnnecessaryStubbing 
+CostCentreReportServiceTest.generateReport_noGroups_shouldReturnEmptyReport:27 » NullPointer Cannot invoke "jakarta.persistence.TypedQuery.setParameter(String, Object)" because "q" is null
+DashboardServiceTest.getDashboardData_shouldReturnNonNull » UnnecessaryStubbing 
+EwayBillServiceTest.deleteEwayBill_shouldCallRepository:55 » Runtime e-Way Bill not found with id: 1
+ItemImportServiceTest.generateTemplate_shouldReturnValidExcel » UnnecessaryStubbing 
+LedgerReportServiceTest.generateLedger_customer_noData_shouldReturnEmptyLedger » UnnecessaryStubbing 
+ManualAssemblyImportServiceTest.generateTemplate_shouldReturnValidExcel » UnnecessaryStubbing 
+PaymentServiceTest$ApplyAdvanceTests.validApply_shouldReduceUnused:382 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.CreditNoteInvoiceMappingRepository.sumAppliedByInvoiceId
+PaymentServiceTest$RecordPaymentTests.fullPayment_shouldAllocateAndSetPaid:102 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.CreditNoteInvoiceMappingRepository.sumAppliedByI
+PaymentServiceTest$RecordPaymentTests.partialPayment_shouldLeaveUnused:132 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.CreditNoteInvoiceMappingRepository.sumAppliedByInvoi
+PaymentServiceTest$RecordPaymentTests.withBankChargesAndTds_shouldExcludeBankChargesFromSettlement:226 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.CreditNoteInvoiceMapping
+PaymentServiceTest$RecordPaymentTests.withBankChargesOnly_shouldNotAffectAdvance:262 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.CreditNoteInvoiceMappingRepository.sumAppl
+PaymentServiceTest$RecordPaymentTests.withTds_shouldCalculateCorrectly:181 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.CreditNoteInvoiceMappingRepository.sumAppliedByInvoi
+PaymentServiceTest$VoidPaymentTests.validVoid_shouldClearAllocations:526 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.CreditNoteInvoiceMappingRepository.sumAppliedByInvoice
+ProfitAndLossServiceTest.generateReport_noTransactions_shouldReturnZeroReport » UnnecessaryStubbing 
+RecurringBillServiceTest.delete_shouldCallRepository:57 » Runtime Recurring bill profile not found: 1
+VendorCreditServiceTest$VoidVendorCredit.shouldVoidDraft:437 » IllegalArgument DRAFT vendor credits should be deleted directly.
+VendorPaymentServiceTest$ApplyAdvanceToBill.validAdvanceApplication_shouldSucceed:454 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.VendorCreditBillMappingRepository.sumAppl
+VendorPaymentServiceTest$DeletePaymentTests.deleteWithAllocations_shouldRecalculateBillBalance:719 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.VendorCreditBillMappingRepos
+VendorPaymentServiceTest$RecordPayment.fullBillPayment_shouldSucceed:170 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.VendorCreditBillMappingRepository.sumAppliedByBillId(j
+VendorPaymentServiceTest$RecordPayment.partialPayment_shouldCreateExcess:216 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.VendorCreditBillMappingRepository.sumAppliedByBill
+VendorPaymentServiceTest$RecordPayment.withTds_shouldCalculateCorrectly:413 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.VendorCreditBillMappingRepository.sumAppliedByBillI
+VendorPaymentServiceTest$VoidPaymentTests.voidPayment_shouldClearAllocations:662 » NullPointer Cannot invoke "nyaalkaran.erp.system.accounting.repository.VendorCreditBillMappingRepository.sumAppliedBy
+WarehouseServiceTest.createWarehouse_valid_shouldSave:56 » Runtime Country is required
+WarehouseServiceTest.updateWarehouse_duplicateName_shouldThrow » UnnecessaryStubbing 
+WarehouseStockServiceTest.getStockQuantity_found_shouldReturnQty » UnnecessaryStubbing 
+
+IT run I3 (CONTROL-PANEL):
+IdentitySyncMySqlIT.assignment_writesItsSyncTaskAtomically_andTheWorkerAppliesGroupAndRole:204 
+IdentitySyncMySqlIT.invitationOfANewPerson_createsAPasswordlessUser_sendsTheMail_andGrantsTheMembership:306 
+IdentitySyncMySqlIT.revocation_removesOnlyWhatTheRevokedMembershipGranted:232 NullPointer Cannot invoke "java.util.Set.add(Object)" because the return value of "java.util.Map.get(Object)" is null
+IdentitySyncMySqlIT.undefinedRealmRole_isAPermanentFailure:390 » IndexOutOfBounds Index 0 out of bounds for length 0

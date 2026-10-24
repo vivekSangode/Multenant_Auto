@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{vehicle}}/api/v1/vehicle/models"
+method: POST
+headers:
+  Authorization: Bearer {{tokenA}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "modelCode": "VX-SUV", "name": "Velocity VX SUV", "bodyType": "SUV", "fuelType": "DIESEL", "basePrice": 1450000 }'
+scripts:
+  - type: afterResponse
+    code: pm.test('201', () => pm.response.to.have.status(201));
+    language: text/javascript
+order: 1000

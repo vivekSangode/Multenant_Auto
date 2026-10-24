@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: cp/001-baseline.sql
+      relativeToChangelogFile: true
+  - include:
+      file: cp/002-seed-catalog.sql
+      relativeToChangelogFile: true
+  - include:
+      file: cp/003-seed-automotive.sql
+      relativeToChangelogFile: true
+  - include:
+      file: cp/004-company-branding.sql
+      relativeToChangelogFile: true

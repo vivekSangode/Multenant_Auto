@@ -1,0 +1,7 @@
+# Use this workspace to collaborate
+workspace:
+  id: 06c3932b-c61c-4acd-87bd-7057683d445e
+
+localResources:
+  collections:
+    - ../Car Dealer SaaS - multi-tenant microservices

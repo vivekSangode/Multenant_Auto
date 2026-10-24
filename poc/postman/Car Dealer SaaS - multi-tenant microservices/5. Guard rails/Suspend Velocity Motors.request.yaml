@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{cp}}/api/v1/platform/companies/{{companyA}}/status"
+method: POST
+headers:
+  Authorization: Bearer {{platformToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: '{ "status": "SUSPENDED", "reason": "payment overdue" }'
+scripts:
+  - type: afterResponse
+    code: pm.test('2xx', () => pm.response.to.be.success);
+    language: text/javascript
+order: 4000

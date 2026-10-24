@@ -1,0 +1,13 @@
+$kind: http-request
+name: "Stock: one RESERVED, one AVAILABLE"
+url: "{{inventory}}/api/v1/inventory/units?modelCode=VX-SUV"
+method: GET
+headers:
+  Authorization: Bearer {{tokenA}}
+scripts:
+  - type: afterResponse
+    code: |-
+      const s = pm.response.json().map(u => u.status).sort();
+      pm.test('reserved + available', () => pm.expect(s).to.eql(['AVAILABLE', 'RESERVED']));
+    language: text/javascript
+order: 8000

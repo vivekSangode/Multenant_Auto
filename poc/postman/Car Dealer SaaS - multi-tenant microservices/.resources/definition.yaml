@@ -1,0 +1,48 @@
+$kind: collection
+description: |-
+  Onboards two car companies through the control plane (Velocity Motors, Apex Autos) and calls the SAME vehicle / inventory / booking microservice APIs with each company's own token. The token alone decides the company: data lands in cmp_<n>_<module>_db of that company.
+
+  Run it top to bottom (Collection Runner, or click through). Platform, operator and company tokens are refreshed automatically by the collection pre-request script. 'Wait ...' requests poll by themselves in the Runner; when clicking manually, just re-send them until they pass.
+
+  Prerequisites: docker compose up -d, control plane on :8080, vehicle-service :8091, inventory-service :8092, booking-service :8093 (see poc/services/README.md).
+variables:
+  cp: http://localhost:8080
+  kc: http://localhost:8180
+  vehicle: http://localhost:8091
+  inventory: http://localhost:8092
+  booking: http://localhost:8093
+  ownerEmailA: owner@velocity.test
+  ownerPasswordA: Velocity-Owner-1
+  ownerEmailB: owner@apex.test
+  ownerPasswordB: Apex-Owner-1
+scripts:
+  - type: http:beforeRequest
+    code: |-
+      // Keeps every token fresh (access tokens live 5 min, the Keycloak master admin token 1 min).
+      const cv = pm.collectionVariables;
+      const kc = pm.variables.get('kc'); // honours an environment / --env-var override of the URL
+      function refresh(name, realm, client, user, pass) {
+        if (!realm || !user) { return; }
+        const exp = Number(cv.get(name + 'Exp') || 0);
+        if (cv.get(name) && Date.now() < exp - 20000) { return; }
+        pm.sendRequest({
+          url: kc + '/realms/' + realm + '/protocol/openid-connect/token', method: 'POST',
+          header: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: { mode: 'urlencoded', urlencoded: [
+            { key: 'grant_type', value: 'password' }, { key: 'client_id', value: client },
+            { key: 'username', value: user }, { key: 'password', value: pass } ] }
+        }, (err, res) => {
+          if (!err && res.code === 200) {
+            cv.set(name, res.json().access_token);
+            cv.set(name + 'Exp', Date.now() + res.json().expires_in * 1000);
+          }
+        });
+      }
+      refresh('platformToken', 'erp-platform', 'platform-console', 'superadmin', 'change-me');
+      if (pm.request.url.toString().includes('/admin/realms/')) {
+        refresh('operatorToken', 'master', 'admin-cli', 'admin', 'admin');
+      }
+      const v = (k) => pm.variables.get(k);
+      if (cv.get('acceptedA')) { refresh('tokenA', cv.get('realmA'), 'erp-web', v('ownerEmailA'), v('ownerPasswordA')); }
+      if (cv.get('acceptedB')) { refresh('tokenB', cv.get('realmB'), 'erp-web', v('ownerEmailB'), v('ownerPasswordB')); }
+    language: text/javascript

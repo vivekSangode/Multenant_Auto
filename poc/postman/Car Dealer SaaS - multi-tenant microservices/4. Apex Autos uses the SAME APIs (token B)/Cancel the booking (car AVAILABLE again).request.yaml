@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{booking}}/api/v1/booking/bookings/{{bookingB}}/cancel"
+method: POST
+headers:
+  Authorization: Bearer {{tokenB}}
+scripts:
+  - type: afterResponse
+    code: pm.test('CANCELLED', () => pm.expect(pm.response.json().status).to.eql('CANCELLED'));
+    language: text/javascript
+order: 13000
